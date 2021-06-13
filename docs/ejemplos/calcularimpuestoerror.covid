@@ -1,0 +1,8 @@
+xxx Esta funcion calcula impuestos
+virus calcularimpuesto precioProducto , impuesto , 999descuento :{
+    micro_molecula porcentaje := 0.12.666
+    micro_molecula descuentoAux := ( ( descuento #cortar 100 ) #por precioProducto )
+    micro_molecula precioProductoAux := ( precioProducto #quitar descuentoAux )
+    micro_molecula impuestoAux := ( ( impuesto #corrtar 100 ) #por precioProductoAux )
+    @vomito 21223impuestoAux
+}empalido

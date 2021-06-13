@@ -1,0 +1,9 @@
+xxxfactorial
+virus Factorial num :{
+    molecula respuesta := 1.2.666
+    cuarentena num #mismoke 1 :{
+        respuesta := 3respuesta #por num
+        num := num #quitar 1
+    }empalido
+    @vomito respuesta
+}empalido

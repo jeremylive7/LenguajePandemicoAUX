@@ -1,0 +1,4 @@
+virus hola_mundo :{
+    receta 3palabra := @inyeccion <hola> , <mundo>
+    @vacuna palabra
+}empalido

@@ -1,0 +1,10 @@
+virus Sumatoria pLista :{
+    molecula pos := 0
+    molecula resultado := 0
+    molecula largoLista := @antibiotico pLista
+    cuarentena pos #menorke largoLista :{
+        resultado := resultado #mas @penicilina pLista, pos
+        pos := pos #mas 1
+    }empalido
+    @vomito resultado
+}empalido

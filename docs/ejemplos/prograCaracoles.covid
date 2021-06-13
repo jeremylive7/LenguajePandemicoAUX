@@ -1,0 +1,16 @@
+virus main :{
+
+    @vacuna <Entraste al main>
+
+}empalido
+
+virus inicioCarrera :{
+    receta caracoles = <ABC>
+
+    receta caracolA = @pinchaso caracoles , 0
+
+    receta carreraActualizada = @juega caracolA 1
+
+    @vomito carreraActualizada
+
+}empalido

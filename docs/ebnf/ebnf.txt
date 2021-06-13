@@ -1,0 +1,37 @@
+# EBNF
+
+Programa ::= (Comentario | Asignación | Función)* Inicio
+Comentario ::= XXX[a-z A-Z -_ / ]+
+Asignación ::= (mascarilla | molecula | micro_molecula | receta) Identificador :=
+  (Identificador | LlamadaFunción | Expresión)
+Función ::= virus Identificador Parametros? :{ Instrucciones }empalido
+Inicio ::= covid19 :{ Instrucciones+ }empalido
+Identificador ::= [a-z][a-z A-Z 0-9]+
+LlamadaFunción ::= @ Identificador (Parametros | Literal | LlamadaFunción)*
+Parámetros ::= Identificador (, Identificador)*
+Instrucciones ::= Asignación | Identificador |  RepetirWhile | RepetirFor | SiCondicional | Comentario | Retorno
+RepetirWhile ::= cuarentena ExpCondicional :{ Instrucciones+ }empalido
+RepetirFor ::= aislamiento Identificador Molécula, Molécula :{ Instrucciones+ }empalido
+SiCondicional ::= estornudo_acapela ExpCondicional :{ Instrucciones+ }empalido
+SinoCondicional ::= estornudo_tapado ExpCondicional :{ Instrucciones+ }empalido
+NoCondicional ::= me_capeo :{ Instrucciones+ }empalido
+ExpCondicional ::= Comparación ( (#yke | #oke ) Comparación)?
+Comparación ::= (Identificador | Literal) Comparador (Identificador | Literal)
+Literal ::= Receta | Molécula | Micro_Molécula | Mascarilla
+Receta ::= <[a-z A-Z _ 0-9]+>
+Molécula ::= -?[0-9]+
+Micro_Molécula ::= -?[0-9]+.[0-9]+
+Mascarilla ::= #positivo | #negativo
+Expresión ::=  (MiniExpreción) | Literal | Identificador | LlamadaFunción
+MiniExpresión ::= Expresión Operador Expresión
+Operador  ::= #mas | #quitar | #por | #cortar
+Comparador ::= #mayorke | #menorke | #mismoke | #nadakever
+Impresión ::= @vacuna Identificador | Literal
+Concatenar ::= @inyeccion Receta*
+Indice del texto ::= @pinchaso Receta “,” Molécula
+Indice de la lista ::= @penicilina Síntomas “,” Molécula
+Largo del texto ::= @aguja Receta
+Largo de la lista ::= @antibiótico Síntomas
+Solicitar ::= @antivirus
+Convertir ::= @curado (Receta  | Molécula)
+Retorno ::= @vomito Identificador | Literal | LlamadaFunción
