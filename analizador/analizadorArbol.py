@@ -69,13 +69,12 @@ class Analizador:
         if self.componente_actual.texto_componente in ['covid19']:
             nodos_nuevos += [self.__analizar_principal()]
         else:
-            #print("Error1: ", str(self.componente_actual))
+            raise SyntaxError(str(self.componente_actual))
+            # print("Error1: ", str(self.componente_actual))
             # self.componente_actual.texto_componente == '}empalido' and
             #if self.contador_encapsulacion == 0 and self.posicion_componente_actual + 1 != self.cantidad_componentes:
             #    print("ERROR INESPERADO!:     Tienes Exceso de }empalido")
             #print("~~~~ Fin del analisis de pandemico.... ~~~~~")
-            raise SyntaxError(str(self.componente_actual))
-
 
         return NodoArbol(TipoNodo.PROGRAMA, nodos=nodos_nuevos)
 
