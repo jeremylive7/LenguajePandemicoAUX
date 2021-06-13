@@ -1,4 +1,9 @@
-virus hola_mundo :{
-    receta palabra := @inyeccion <hola> , <mundo>
-    @vacuna palabra
+virus holaMundo :{
+    receta palabra := <hola> 
+    @vomito palabra
 }empalido
+covid19 :{
+    
+    @vomito <hola>
+}empalido
+

@@ -11,7 +11,7 @@ from generador.generador import Generador
 from verificador.verificador import Verificador
 
 if __name__ == '__main__':
-    texto = archivos.cargar_archivo("./docs/ejemplos/eliminarcaracter.covid")
+    texto = archivos.cargar_archivo("./docs/ejemplos/holamundo.covid")
     exp = ExploradorDeComponentes(texto)
     print("------------------------ EXPLORADOR --------------------------------")
     exp.explorar()
