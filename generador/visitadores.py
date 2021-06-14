@@ -1,9 +1,10 @@
 from utils.arbol.TipoNodo import TipoNodo
-
+import re
 
 class VisitantePython:
     tabuladores = 0
-
+    nombreFuncion = ''
+    listaparametros = []
     def visitar(self, nodo: TipoNodo):
 
         resultado = ''
@@ -37,7 +38,7 @@ class VisitantePython:
 
         elif nodo.tipo is TipoNodo.REPETIR_WHILE:
             resultado = self.__visitar_repeticion_while(nodo)
-            print("------Prueba:\n" + resultado + "\n-----------------\n")
+            #print("------Prueba:\n" + resultado + "\n-----------------\n")
 
         elif nodo.tipo is TipoNodo.BIFURCACION:
             resultado = self.__visitar_bifurcacion(nodo)
@@ -105,6 +106,14 @@ class VisitantePython:
         elif nodo.tipo is TipoNodo.CONCATENAR:
             resultado = self.__visitar_concatenar(nodo)
 
+        elif nodo.tipo is TipoNodo.SOLICITAR:
+            resultado = self.__analizar_solicitar(nodo)
+    
+        elif nodo.tipo is TipoNodo.CONVERTIR:
+            resultado = self.__analizar_convertir(nodo)
+        elif nodo.tipo is TipoNodo.IMPRESION:
+            resultado = self.__analizar_print(nodo)
+
         else:
             raise Exception('Error: el tipo del nodo no fue encontrado :O')
 
@@ -116,7 +125,6 @@ class VisitantePython:
 
         for nodo in nodo_actual.nodos:
             instrucciones.append(nodo.visitar(self))
-
         return '\n'.join(instrucciones)
 
     def __visitar_asignacion(self, nodo_actual):
@@ -163,14 +171,14 @@ class VisitantePython:
         """
         Función ::= (Comentario)? mae Identificador (ParámetrosFunción) BloqueInstrucciones
         """
-
-        resultado = """\ndef {}({}):\n{}"""
+        import_random = "import random"
+        resultado = ""+import_random+"\ndef {}({}):\n{}"""
 
         instrucciones = []
 
         for nodo in nodo_actual.nodos:
             instrucciones += [nodo.visitar(self)]
-
+        self.nombreFuncion = instrucciones[0]
         return resultado.format(instrucciones[0], instrucciones[1], '\n'.join(instrucciones[2]))
 
     def __visitar_invocacion(self, nodo_actual):
@@ -211,7 +219,7 @@ class VisitantePython:
 
         for nodo in nodo_actual.nodos:
             parameters.append(nodo.visitar(self))
-
+        self.listaparametros = parameters
         if len(parameters) > 0:
             return ' '.join(parameters)
 
@@ -222,27 +230,26 @@ class VisitantePython:
         """
         Instrucción ::= (Repetición | Bifurcación | (Asignación | Invocación) | Retorno | Error | Comentario )
         """
-
-        valor = ""
-
+        instrucciones = []
         for nodo in nodo_actual.nodos:
-            valor = nodo.visitar(self)
+            instrucciones.append(nodo.visitar(self))
+        if len(instrucciones) > 0:
+            return ''.join(instrucciones)
 
-        return valor
+        else:
+            return ''
 
     def __visitar_repeticion_while(self, nodo_actual):
         """
         Repetición ::= upee ( Condición ) BloqueInstrucciones
         """
 
-        resultado = """while {}:\n{}"""
-
+        resultado = """while {}:\n{}\n"""
         instrucciones = []
 
         # Visita la condición
         for nodo in nodo_actual.nodos:
             instrucciones.append(nodo.visitar(self))
-
         return resultado.format(instrucciones[0], '\n'.join(instrucciones[1]))
 
     def __visitar_bifurcacion(self, nodo_actual):
@@ -250,15 +257,16 @@ class VisitantePython:
         Bifurcación ::= DiaySi (Sino)?
         """
 
-        resultado = """{}{}"""
-
         instrucciones = []
 
         # Visita los dos nodos en el siguiente nivel si los hay
         for nodo in nodo_actual.nodos:
             instrucciones.append(nodo.visitar(self))
 
-        return resultado.format(instrucciones[0], '')
+        if len(instrucciones) > 0:
+            return '\n'.join(instrucciones)
+        else:
+            return ''
 
     def __visitar_SI_CONDICIONAL(self, nodo_actual):
         """
@@ -279,21 +287,21 @@ class VisitantePython:
         Sino ::= sino ni modo BloqueInstrucciones
         """
 
-        resultado = """elif:\n  {}"""
+        resultado = self.__retornar_tabuladores()+"""elif {}:\n{}"""
 
         instrucciones = []
 
         for nodo in nodo_actual.nodos:
             instrucciones += [nodo.visitar(self)]
 
-        return resultado.format('\n'.join(instrucciones[0]))
+        return resultado.format(instrucciones[0], '\n'.join(instrucciones[1]))
 
     def __visitar_no_condicional(self, nodo_actual):
         """
         Sino ::= sino ni modo BloqueInstrucciones
         """
 
-        resultado = """else:\n  {}"""
+        resultado = self.__retornar_tabuladores()+"""else:\n{}"""
 
         instrucciones = []
 
@@ -346,12 +354,10 @@ class VisitantePython:
         Retorno :: sarpe (Valor)?
         """
 
-        resultado = 'return {}'
+        resultado = self.__retornar_tabuladores()+'return {}'
         valor = ''
-
         for nodo in nodo_actual.nodos:
             valor = nodo.visitar(self)
-
         return resultado.format(valor)
 
     def __visitar_error(self, nodo_actual):
@@ -374,16 +380,25 @@ class VisitantePython:
         # Este mae solo va a tener un bloque de instrucciones que tengo que
         # ir a visitar
 
-        resultado = """\ndef covid19():\n{}\n\nif __name__ == '__main__':\n\tprincipal()"""
-
+        resultado = """\ndef covid19():\n\t""" + self.nombreFuncion + """({})\n\nif name == 'main__':\n\tcovid19()"""
         instrucciones = []
 
         # Lo pongo así por copy/paste... pero puede ser como el comentario
         # de más abajo.
         for nodo in nodo_actual.nodos:
+            #if nodo.tipo is TipoNodo.IDENTIFICADOR:
+            #    if nodo.contenido == self.listaparametros[0]:
+            #        print("")
             instrucciones += [nodo.visitar(self)]
-
-        return resultado.format('\n'.join(instrucciones[0]))
+        if (len(instrucciones[0]) != len(self.listaparametros)):
+            return resultado.format('')
+        else:
+            valores_parametros = []
+            for i in range(len(instrucciones[0])):
+                found = re.split(r"= ",instrucciones[0][i])
+                if (str(self.listaparametros[i]) == str(found[0].strip())):
+                    valores_parametros += [found[1]]
+            return resultado.format(",".join([str() for _ in valores_parametros]))
 
     def __visitar_literal(self, nodo_actual):
         """
@@ -403,7 +418,7 @@ class VisitantePython:
         """
         BloqueInstrucciones ::= { Instrucción+ }
         """
-        self.tabuladores += 2
+        self.tabuladores += 4
 
         instrucciones = []
 
@@ -416,7 +431,7 @@ class VisitantePython:
         for instruccion in instrucciones:
             instrucciones_tabuladas += [self.__retornar_tabuladores() + instruccion]
 
-        self.tabuladores -= 2
+        self.tabuladores -= 4
 
         return instrucciones_tabuladas
 
@@ -444,6 +459,11 @@ class VisitantePython:
         """
         ValorVerdad ::= (True | False)
         """
+        if nodo_actual.contenido == '#positivo':
+            return 'True'
+        elif nodo_actual.contenido == '#negativo':
+            return 'False'
+
         return nodo_actual.contenido
 
     def __visitar_comparador(self, nodo_actual):
@@ -488,19 +508,42 @@ class VisitantePython:
         return nodo_actual.contenido
 
     def __retornar_tabuladores(self):
-        return " " * self.tabuladores
+        return ' ' * self.tabuladores
 
     def __visitar_operador_logico(self, nodo_actual):  # TODO
         return 'aqui 1'
 
     def __visitar_palabra_clave(self, nodo_actual):  # TODO
-        return 'aqui 2'
-
-    def __visitar_largo(self, nodo_actual):  # DONE
-        return 'aguja({})'.format(nodo_actual.nodos[0].contenido)
-
-    def __visitar_indice(self, nodo_actual):  # TODO
-        return 'aqui 3'
+        return ''
 
     def __visitar_concatenar(self, nodo_actual):  # TODO
         return 'aqui 4'
+    def __visitar_largo(self, nodo_actual):  # DONE
+        return 'len({})'.format(nodo_actual.nodos[0].contenido)
+
+    def __analizar_solicitar(self, nodo_actual):
+        return 'random.randint({},{})'.format(nodo_actual.nodos[0].contenido,
+                                                nodo_actual.nodos[1].contenido)
+
+    def __visitar_indice(self, nodo_actual):  # TODO
+        x1 = nodo_actual.nodos[0].contenido
+        x2 = nodo_actual.nodos[1].contenido
+        
+        if x2 == "<convertir>":
+            return 'list('+x1+')'
+        elif x2 == "<imprimir>":
+            return '"".join('+x1+')'
+        return "error"
+
+    def __visitar_concatenar(self, nodo_actual):  # TODO
+        x1 = nodo_actual.nodos[0].contenido
+        x2 = nodo_actual.nodos[1].contenido
+        return x1+' + '+x2
+    def __analizar_convertir(self, nodo_actual):
+        x1 = nodo_actual.nodos[0].contenido
+        x2 = nodo_actual.nodos[1].contenido
+        x3 = nodo_actual.nodos[2].contenido
+        return x2+'['+x1+'] = "'+x3+'"'
+
+    def __analizar_print(self, nodo_actual):
+        return 'print('+nodo_actual.nodos[0].contenido+')'

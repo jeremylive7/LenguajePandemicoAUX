@@ -1,25 +1,25 @@
-virus eliminarCaracter tex, letra :{
+virus eliminarCaracter tex , letra :{
     molecula i := 0
     mascarilla largo_texto := @aguja tex
     mascarilla respuesta := <>
-    mascarilla caracter_actual := <>
     cuarentena largo_texto #nadakever i :{
-        caracter_actual := @pinchaso tex , i
+        caracter_actual := i
 
         estornudo_acapela caracter_actual #nadakever letra :{
-            respuesta := @inyeccion res, letra
+            respuesta := letra
         }empalido
-
+        estornudo_tapado caracter_actual #mismoke letra :{
+            respuesta := <respuesta>
+        }empalido
         me_capeo :{
-            respuesta := @inyeccion res, <hola>
+            respuesta := <hola>
         }empalido
-
         i := ( i #mas 1 )
     }empalido
     @vomito respuesta
 }empalido
 
 covid19 :{
-    
-    @vomito <fin_del_programa>
+    tex := 1
+    letra := 22222
 }empalido

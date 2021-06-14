@@ -109,6 +109,15 @@ class Visitante:
         elif nodo.tipo is TipoNodo.CONCATENAR:  # nuevo
             self.__visitar_concatenar(nodo)
 
+        elif nodo.tipo is TipoNodo.SOLICITAR:
+            self.__visitar_largo(nodo)
+
+        elif nodo.tipo is TipoNodo.CONVERTIR:
+            self.__visitar_concatenar(nodo)
+
+        elif nodo.tipo is TipoNodo.IMPRESION:
+            self.__visitar_concatenar(nodo)
+
         else:
             raise Exception('Error')
 

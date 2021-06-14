@@ -312,12 +312,12 @@ class Analizador:
         """
         nodos_nuevos = []
         self.__verificar('@pinchaso')
-        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
-                                                           TipoComponente.RECETA]:
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR]:
             nodos_nuevos += [self.__analizar_valor()]
         self.__verificar(',')
-        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,TipoComponente.MOLECULA]:
-            nodos_nuevos += [self.__analizar_valor()]
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
+                                                           TipoComponente.RECETA]:
+            nodos_nuevos += [self.__analizar_valor()]  
         return NodoArbol(TipoNodo.INDICE, nodos=nodos_nuevos,contenido='@pinchaso')
 
     def __analizar_solicitar(self):
@@ -326,6 +326,13 @@ class Analizador:
         """
         nodos_nuevos = []
         self.__verificar('@antivirus')
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
+                                                           TipoComponente.MOLECULA]:
+            nodos_nuevos += [self.__analizar_valor()]
+        self.__verificar(',')
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
+                                                           TipoComponente.MOLECULA]:
+            nodos_nuevos += [self.__analizar_valor()]
         return NodoArbol(TipoNodo.SOLICITAR, nodos=nodos_nuevos,contenido='@antivirus')
 
     def __analizar_largo(self):
@@ -345,13 +352,17 @@ class Analizador:
         """
         nodos_nuevos = []
         self.__verificar('@curado')
-        if self.componente_actual.categoria_componente in [TipoComponente.MOLECULA,
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
                                                            TipoComponente.RECETA]:
             nodos_nuevos += [self.__analizar_valor()]
         self.__verificar(',')
-        if self.componente_actual.categoria_componente in [TipoComponente.MOLECULA,
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
                                                            TipoComponente.RECETA]:
             nodos_nuevos += [self.__analizar_valor()]
+        self.__verificar(',')
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
+                                                           TipoComponente.RECETA]:
+            nodos_nuevos += [self.__analizar_valor()]   
         return NodoArbol(TipoNodo.CONVERTIR, nodos=nodos_nuevos,contenido='@curado')
 
     def __analizar_concatenar(self):
@@ -360,13 +371,14 @@ class Analizador:
         """
         nodos_nuevos = []
         self.__verificar('@inyeccion')
-        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,TipoComponente.RECETA]:
+        if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
+                                                           TipoComponente.MOLECULA,
+                                                           TipoComponente.MICROMOLECULA]:
             nodos_nuevos += [self.__analizar_valor()]
         self.__verificar(',')
         if self.componente_actual.categoria_componente in [TipoComponente.IDENTIFICADOR,
                                                            TipoComponente.MOLECULA,
-                                                           TipoComponente.MICROMOLECULA,
-                                                           TipoComponente.MASCARILLA, TipoComponente.RECETA]:
+                                                           TipoComponente.MICROMOLECULA]:
             nodos_nuevos += [self.__analizar_valor()]
 
         return NodoArbol(TipoNodo.CONCATENAR, nodos=nodos_nuevos, contenido='@inyeccion')

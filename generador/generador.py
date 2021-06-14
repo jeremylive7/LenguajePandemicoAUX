@@ -8,27 +8,24 @@ class Generador:
     asa: ArbolAbstracto
     visitador: VisitantePython
 
-    ambiente_estandar = """import sys
+    ambiente_estandar = """
 
 def aguja(texto):
     return len(texto)
 
-##################################### cambiar por funciones nuestras
-def hacer_menjunje(texto1, texto2):
-    return texto1 + texto2
+def pinchaso(sms, param):
+    if param == "convertir":
+        return 'list('+param+')'
+    elif param == "imprimir"
+        return '"".join('+param+')'
+    return "error"
 
-def viene_bolita(texto, indice):
-    return texto[indice]
+def antivirus(inicio, final):
+    return random.randint(inicio, final);
 
-def trome(texto):
-    return len(texto)
+def inyeccion(num1, num2):
+    return num1 + num2
 
-def sueltele(texto):
-    print(texto)
-
-def echandi_jiménez():
-    return input()
-########################################################################## 
 """
 
     def __init__(self, nuevo_asa: ArbolAbstracto):

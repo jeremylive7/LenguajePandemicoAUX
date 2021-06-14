@@ -1,0 +1,53 @@
+virus caracoles sms :{
+
+    almacen_sms := sms
+
+    molecula caracolA := 0
+    molecula caracolB := 0
+    molecula caracolC := 0
+
+    molecula largo := @aguja sms
+    molecula largo := ( largo #quitar 1 )
+
+    molecula flag := 0
+    molecula parada := 1
+
+    molecula pasos_posibles := 3
+
+    cuarentena flag #nadakever parada :{
+        
+        molecula pasosA := @antivirus 0 , pasos_posibles
+        molecula pasosB := @antivirus 0 , pasos_posibles
+        molecula pasosC := @antivirus 0 , pasos_posibles
+
+        caracolA := @inyeccion caracolA , pasosA
+        caracolB := @inyeccion caracolB , pasosB
+        caracolC := @inyeccion caracolC , pasosC
+
+        estornudo_acapela caracolA #mayorke largo :{
+            flag := #positivo
+        }empalido
+        estornudo_acapela caracolB #mayorke largo :{
+            flag := #positivo
+        }empalido
+        estornudo_acapela caracolC #mayorke largo :{
+            flag := #positivo
+        }empalido
+
+        estornudo_acapela flag #nadakever #positivo :{
+            sms := almacen_sms
+            sms := @pinchaso sms , <convertir>
+            sms[caracolA] := <A>
+            sms[caracolB] := <B>
+            sms[caracolC] := <C>
+            sms := @pinchaso sms , <imprimir>
+        }empalido
+
+        @vacuna sms
+    }empalido
+    @vomito sms
+}empalido
+
+covid19 :{
+    sms := <OOOOOOOOOOOOOOOOOO>
+}empalido
