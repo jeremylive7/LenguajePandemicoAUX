@@ -15,11 +15,11 @@ class Verificador:
 
         self.tabla_simbolos = TablaSimbolos()
 
-        # self.__cargar_ambiente_estándar()
+        self.__cargar_ambiente_estándar()
 
         self.visitador = Visitante(self.tabla_simbolos)
 
-    def __cargar_ambiente_estandar(self):
+    def __cargar_ambiente_estándar(self):
         # funciones de decoracion del arbol
         funciones_estandar = [
             ('los pigmentos son parecidos', TipoNodo.ASIGNACION),
